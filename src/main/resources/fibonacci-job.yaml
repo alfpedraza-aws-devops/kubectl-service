@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fibonacci-load
+spec:
+  template:
+    spec:
+      containers:
+      - name: fib-load
+        image: errm/ab
+        args: ["-n2000", "-c8", "http://fibonacci/api/fibonacci/40"]
+      restartPolicy: OnFailure
