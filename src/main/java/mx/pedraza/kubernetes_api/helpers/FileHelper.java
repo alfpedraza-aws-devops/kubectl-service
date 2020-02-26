@@ -1,10 +1,8 @@
 package mx.pedraza.kubernetes_api.helpers;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -15,14 +13,14 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 /**
- * Allows to perform file and resources manipulations.
+ * Performs file read-write manipulations.
  */
 @Service
 public class FileHelper {
 
     /**
      * Reads the resource and return its contents.
-     * @param resourcePath The path of the resource to read.
+     * @param resourcePath The path in the classpath of the resource to read.
      * @return A string with the contents of the resource.
      */
     public String readResource(String resourcePath) {
@@ -40,17 +38,17 @@ public class FileHelper {
     private String getStringFromInputStream(InputStream inputStream) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
-        int length;
+        int length = 0;
         while ((length = inputStream.read(buffer)) != -1)
             outputStream.write(buffer, 0, length);
 
         Charset charset = StandardCharsets.UTF_8;
-        String result = outputStream.toString(charset);
+        String result = outputStream.toString(charset.name());
         return result;
     }
 
     /**
-     * Writes the file content to the specified path.
+     * Writes the contents of the file into the specified path.
      * @param filePath The path of the file to write.
      * @param content The contents of the file to write.
      */

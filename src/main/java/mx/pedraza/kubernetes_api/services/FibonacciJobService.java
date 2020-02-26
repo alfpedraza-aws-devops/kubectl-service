@@ -10,7 +10,7 @@ import mx.pedraza.kubernetes_api.helpers.ShellHelper;
 import mx.pedraza.kubernetes_api.models.FibonacciJobRequestModel;
 
 /**
- * 
+ * Contains logic to get, create and delete Fibonacci Job instances.
  */
 @Service
 public class FibonacciJobService {
@@ -24,25 +24,28 @@ public class FibonacciJobService {
     @Autowired
     private JsonHelper jsonHelper;
 
-    // Gets the parameter value from the application properties.
+    // Gets the "jobTargetUrl" parameter from the application properties.
     @Value("${jobTargetUrl}")
     private String jobTargetUrl;
 
     /**
-     * 
-     * @return
+     * Gets the number of fibonacci job instances running in the cluster.
+     * This can be either 0 or 1 since only one instance is allowed to run
+     * at the same time by this application. See "createJob" method for more info.
+     * @return The number of fibonacci job instances running.
      */
     public int getCount() {
         String script = "kubectl get job fibonacci-job -o json";
         String json = shellHelper.execute(script);
         if (!jsonHelper.isValid(json)) return 0;
-        int result = jsonHelper.getElementLength(json);
+        int result = jsonHelper.getArrayLength(json);
         return result;
     }
 
     /**
-     * 
-     * @return
+     * Gets the status of the fibonacci deployment.
+     * This reads the values from the fibonacci HorizontalPodAutoscaler.
+     * @return A string containing the status of the fibonacci deployment.
      */
     public String getStatus() {
         String script = "kubectl describe hpa fibonacci";
@@ -51,29 +54,30 @@ public class FibonacciJobService {
     }
 
     /**
-     * 
-     * @return
+     * Gets the values used to create the executing fibonacci job.
+     * @return A FibonacciJobRequestModel containing the parameters used to create the job.
      */
     public FibonacciJobRequestModel getParameters() {
         String script = "kubectl get job fibonacci-job -o json";
         String json = shellHelper.execute(script);
         FibonacciJobRequestModel result = new FibonacciJobRequestModel();
         if (!jsonHelper.isValid(json)) return result;
+
         int requests = Integer.valueOf(jsonHelper.read(json, "$.spec.template.spec.containers[0].env[?(@.name=='REQUESTS')].value"));
         int concurrency = Integer.valueOf(jsonHelper.read(json, "$.spec.template.spec.containers[0].env[?(@.name=='CONCURRENCY')].value"));
         result.setRequests(requests);
         result.setConcurrency(concurrency);
+
         return result;
     }
 
     /**
-     * 
-     * @param details
-     * @return
+     * Creates a new fibonacci job.
+     * @param details The parameters used to create the job.
      */
     public void createJob(FibonacciJobRequestModel details) {
         // This operation is idempotent.
-        // So if there is nothing to create, just return.
+        // So if there is one running instance, then just return.
         if (getCount() > 0) return;
 
         // Get the parameter values.
@@ -81,10 +85,9 @@ public class FibonacciJobService {
         String requests = String.valueOf(details.getRequests());
         String concurrency = String.valueOf(details.getConcurrency());
 
-        // Build the manifest file with the parameters.
-        String file = fileHelper.readResource(fileName);
-        String template = "";
-        template = file.replaceAll("##REQUESTS##", requests);
+        // Build the Kubernetes manifest file with the parameters.
+        String template = fileHelper.readResource(fileName);
+        template = template.replaceAll("##REQUESTS##", requests);
         template = template.replaceAll("##CONCURRENCY##", concurrency);
         template = template.replaceAll("##JOB_TARGET_URL##", jobTargetUrl);
         fileHelper.writeFile(fileName, template);
@@ -97,7 +100,7 @@ public class FibonacciJobService {
     }
 
     /**
-     * 
+     * Deletes the fibonacci job.
      */
     public void deleteJob() {
         // This operation is idempotent.

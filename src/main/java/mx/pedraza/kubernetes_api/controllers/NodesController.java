@@ -27,8 +27,8 @@ public class NodesController {
 	}
 
 	/**
-	 * Gets the metrics for the nodes present in the cluster.
-	 * @return A string containing the output of 'kubectl top nodes'.
+	 * Gets the CPU and memory metrics of the nodes present in the cluster.
+	 * @return A string containing the output metrics of 'kubectl top nodes'.
 	 */
 	@GetMapping("/status")
 	public String status() {

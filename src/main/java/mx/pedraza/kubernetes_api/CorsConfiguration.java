@@ -7,13 +7,13 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Allows to customize the Spring MVC default settings.
+ * Customizes the Spring MVC default settings.
  */
 @Configuration
 @EnableWebMvc
 public class CorsConfiguration implements WebMvcConfigurer {
     
-    // Gets the parameter value from the application properties.
+    // Gets the "corsOrigins" parameter from the application properties.
     @Value("${corsOrigins}")
     private String corsOrigins;
 
@@ -23,6 +23,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        // Allow access to the specified origins to all paths in the app ("/**").
         registry
             .addMapping("/**")
             .allowedOrigins(corsOrigins);

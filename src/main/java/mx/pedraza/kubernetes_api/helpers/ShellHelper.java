@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
- * Allows to execute command line scripts.
+ * Executes command line scripts.
  */
 @Service
 public class ShellHelper {

@@ -1,12 +1,15 @@
-# Builds the java code and packages using mvn
+# Builds the java code and packages it using "mvn".
+# The output jar will be saved into: /build/target/kubernetes-api-0.0.1-SNAPSHOT.jar
 FROM maven:3.5.2-jdk-8-alpine AS MAVEN_BUILD
 COPY pom.xml /build/
 COPY src /build/src/
 WORKDIR /build/
 RUN mvn package
 
-# Gets the package from previous temporal image and installs kubectl
-# Sets the profile to "prod", so the code can use the "prod" application properties.
+
+# Gets the package from the previous stage build image.
+# Downloads and installs "kubectl" to allow the communication with the Kubernetes API Server.
+# Sets the spring profile to "prod", so the code can use the "prod" application properties.
 FROM openjdk:8-jre-alpine
 WORKDIR /app
 COPY --from=MAVEN_BUILD /build/target/kubernetes-api-0.0.1-SNAPSHOT.jar /app/app.jar
