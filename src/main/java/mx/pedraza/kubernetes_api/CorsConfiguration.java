@@ -26,6 +26,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
         // Allow access to the specified origins to all paths in the app ("/**").
         registry
             .addMapping("/**")
+            .allowedMethods("GET","HEAD","POST","PUT","DELETE")
             .allowedOrigins(corsOrigins);
     }
 }
