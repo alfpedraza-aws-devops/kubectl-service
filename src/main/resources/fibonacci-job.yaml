@@ -1,12 +1,19 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: fibonacci-load
+  name: fibonacci-job
 spec:
   template:
     spec:
       containers:
-      - name: fib-load
+      - name: fibonacci-load
         image: errm/ab
-        args: ["-n2000", "-c8", "http://fibonacci/api/fibonacci/40"]
+        args: ["-n$(REQUESTS)", "-c$(CONCURRENCY)", "$(JOB_TARGET_URL)"]
+        env:
+        - name: REQUESTS
+          value: "##REQUESTS##"
+        - name: CONCURRENCY
+          value: "##CONCURRENCY##"
+        - name: JOB_TARGET_URL
+          value: "##JOB_TARGET_URL##"
       restartPolicy: OnFailure
