@@ -34,15 +34,6 @@ public class FibonacciJobController {
 	}
 
 	/**
-	 * Gets the status of the fibonacci deployment.
-	 * @return A string containing the output of 'kubectl describe hpa fibonacci'
-	 */
-	@GetMapping("/status")
-	public String status() {
-		return service.getStatus();
-	}
-
-	/**
 	 * Gets the parameters used to execute the fibonacci job.
 	 * @return  A FibonacciJobRequestModel object containing the parameters.
 	 */
@@ -75,4 +66,5 @@ public class FibonacciJobController {
 		service.deleteJob();
 		return ResponseEntity.ok().build();
 	}
+	
 }

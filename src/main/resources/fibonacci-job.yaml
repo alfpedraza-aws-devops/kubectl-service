@@ -6,8 +6,9 @@
 # The purpose of this job is to put pressure on the CPU of the machine hosting
 # the fibonacci service and make the Kubernetes cluster autoscaler to grow the
 # Kubernetes cluster, appending more node servers to the cluster.
-# The parameters specified in the section "env" below are replaced programatically
-# in java code. This file is only a template. 
+# The parameters specified in the section "env" below and enclosed with ##
+# are replaced programatically by the java code.
+# This file is only a template for the java code. 
 
 apiVersion: batch/v1
 kind: Job

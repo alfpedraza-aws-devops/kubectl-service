@@ -13,7 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 /**
- * Performs file read-write manipulations.
+ * Performs file read/write manipulations.
  */
 @Service
 public class FileHelper {
@@ -75,4 +75,5 @@ public class FileHelper {
             throw new RuntimeException(e);
         }
     }
+    
 }

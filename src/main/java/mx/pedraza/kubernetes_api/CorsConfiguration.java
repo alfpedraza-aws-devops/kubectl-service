@@ -23,10 +23,11 @@ public class CorsConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        // Allow access to the specified origins to all paths in the app ("/**").
+        // Allow access to the specified origins and to all paths in the app ("/**").
         registry
             .addMapping("/**")
             .allowedMethods("GET","HEAD","POST","PUT","DELETE")
             .allowedOrigins(corsOrigins);
     }
+    
 }

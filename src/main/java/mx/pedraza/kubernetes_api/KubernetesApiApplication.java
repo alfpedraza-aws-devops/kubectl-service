@@ -17,4 +17,5 @@ public class KubernetesApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KubernetesApiApplication.class, args);
 	}
+	
 }

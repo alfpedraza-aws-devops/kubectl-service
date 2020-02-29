@@ -77,4 +77,5 @@ public class JsonHelper {
         String result = array.get(0).toString();
         return result;
     }
+    
 }

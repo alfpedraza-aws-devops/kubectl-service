@@ -10,7 +10,7 @@ import mx.pedraza.kubernetes_api.helpers.ShellHelper;
 import mx.pedraza.kubernetes_api.models.FibonacciJobRequestModel;
 
 /**
- * Contains logic to get, create and delete Fibonacci Job instances.
+ * Contains logic to get, create and delete a Fibonacci Job instance.
  */
 @Service
 public class FibonacciJobService {
@@ -39,17 +39,6 @@ public class FibonacciJobService {
         String json = shellHelper.execute(script);
         if (!jsonHelper.isValid(json)) return 0;
         int result = jsonHelper.getArrayLength(json);
-        return result;
-    }
-
-    /**
-     * Gets the status of the fibonacci deployment.
-     * This reads the values from the fibonacci HorizontalPodAutoscaler.
-     * @return A string containing the status of the fibonacci deployment.
-     */
-    public String getStatus() {
-        String script = "kubectl describe hpa fibonacci";
-        String result = shellHelper.execute(script);
         return result;
     }
 
@@ -110,4 +99,5 @@ public class FibonacciJobService {
         String script = "kubectl delete job fibonacci-job";
         shellHelper.execute(script);
     }
+    
 }

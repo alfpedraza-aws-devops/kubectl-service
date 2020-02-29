@@ -13,4 +13,5 @@ public class FibonacciJobRequestModel {
 
     // Specfies the number of requests to perform on the job.
     private int requests;
+    
 }
