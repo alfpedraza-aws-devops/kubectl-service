@@ -40,3 +40,7 @@ Altough the above operations could be performed by the Kubernetes API server by 
 The solution was to create this Java Spring Boot project to call the Kubernetes API Server programatically (using `kubectl`) and to only expose the required resources through the use of the Kubernetes RBAC.
 
 There are several RBAC objects created specifically to grant access only to the resources exposed by this service. A Kubernetes Service Account is created and a Role and a RoleBinding objects are created for this purpose as well. Check the Helm project to see the details about these RBAC objects and the permissions they grant to this service.
+
+## Further Development
+
+* Implement JWT Authentication as per https://auth0.com/blog/implementing-jwt-authentication-on-spring-boot/
