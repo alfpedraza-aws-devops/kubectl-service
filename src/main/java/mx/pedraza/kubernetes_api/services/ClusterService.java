@@ -7,7 +7,7 @@ import mx.pedraza.kubernetes_api.helpers.ShellHelper;
 import mx.pedraza.kubernetes_api.helpers.JsonHelper;
 
 /**
- * Contains logic to get information about the machines running
+ * Contains logic to get information about the nodes running
  * in the Kubernetes cluster.
  */
 @Service
@@ -20,11 +20,11 @@ public class ClusterService {
     private JsonHelper jsonHelper;
 
     /**
-     * Gets the number of machines running in the Kubernetes cluster.
+     * Gets the number of nodes running in the Kubernetes cluster.
      * This includes the master node and any other worker nodes.
-     * @return An integer specifing the number of machines running.
+     * @return An integer specifing the number of nodes running.
      */
-    public int getMachineCount() {
+    public int getNodeCount() {
         String script = "kubectl get nodes -o json";
         String json = shellHelper.execute(script);
         if (!jsonHelper.isValid(json)) return 0;
@@ -33,7 +33,7 @@ public class ClusterService {
     }
 
     /**
-     * Gets the CPU and memory metrics of the machines running in the Kubernetes cluster.
+     * Gets the CPU and memory metrics of the nodes running in the Kubernetes cluster.
      * @return A string containing the output of 'kubectl top nodes'
      */
     public String getStatus() {
@@ -43,7 +43,7 @@ public class ClusterService {
     }
 
     /**
-     * Gets the status of the fibonacci horizontal pod autoscaler.
+     * Gets the status of the Kubernetes fibonacci horizontal pod autoscaler.
      * @return A string containing the status of the fibonacci hpa.
      */
     public String getHpaStatus() {

@@ -10,7 +10,7 @@ import mx.pedraza.kubernetes_api.helpers.ShellHelper;
 import mx.pedraza.kubernetes_api.models.FibonacciJobRequestModel;
 
 /**
- * Contains logic to get, create and delete a Fibonacci Job instance.
+ * Contains logic to get, create and delete the Kubernetes fibonacci job instance.
  */
 @Service
 public class FibonacciJobService {
@@ -31,8 +31,9 @@ public class FibonacciJobService {
     /**
      * Gets the number of fibonacci job instances running in the cluster.
      * This can be either 0 or 1 since only one instance is allowed to run
-     * at the same time by this application. See "createJob" method for more info.
-     * @return The number of fibonacci job instances running.
+     * at the same time by design of this application.
+     * See the "createJob" method in this class for more info.
+     * @return The number of fibonacci job instances running (either 0 or 1).
      */
     public int getCount() {
         String script = "kubectl get job fibonacci-job -o json";
@@ -43,7 +44,7 @@ public class FibonacciJobService {
     }
 
     /**
-     * Gets the values used to create the executing fibonacci job.
+     * Gets the values used to create the executing Kubernetes fibonacci job.
      * @return A FibonacciJobRequestModel containing the parameters used to create the job.
      */
     public FibonacciJobRequestModel getParameters() {
@@ -52,6 +53,7 @@ public class FibonacciJobService {
         FibonacciJobRequestModel result = new FibonacciJobRequestModel();
         if (!jsonHelper.isValid(json)) return result;
 
+        // Read the data retrieved from kubectl and populate the variables.
         int requests = Integer.valueOf(jsonHelper.read(json, "$.spec.template.spec.containers[0].env[?(@.name=='REQUESTS')].value"));
         int concurrency = Integer.valueOf(jsonHelper.read(json, "$.spec.template.spec.containers[0].env[?(@.name=='CONCURRENCY')].value"));
         result.setRequests(requests);
@@ -66,7 +68,7 @@ public class FibonacciJobService {
      */
     public void createJob(FibonacciJobRequestModel details) {
         // This operation is idempotent.
-        // So if there is one running instance, then just return.
+        // If there is one running instance, then just return.
         if (getCount() > 0) return;
 
         // Get the parameter values.
@@ -93,7 +95,7 @@ public class FibonacciJobService {
      */
     public void deleteJob() {
         // This operation is idempotent.
-        // So if there is nothing to delete, just return.
+        // If there is nothing to delete, just return.
         if (getCount() == 0) return;
 
         String script = "kubectl delete job fibonacci-job";

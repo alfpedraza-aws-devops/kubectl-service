@@ -13,7 +13,7 @@ import mx.pedraza.kubernetes_api.models.FibonacciJobRequestModel;
 import mx.pedraza.kubernetes_api.services.FibonacciJobService;
 
 /**
- * Exposes a REST endpoint to perform several operations with the Fibonacci Job.
+ * Exposes a REST endpoint to perform several operations with the Kubernetes Fibonacci Job.
  */
 @RestController()
 @RequestMapping("/api/fibonacci-job")
@@ -23,9 +23,10 @@ public class FibonacciJobController {
 	private FibonacciJobService service;
 
 	/**
-	 * Gets the number of fibonacci jobs running in the cluster.
-	 * Either can be 0 or 1, since only one job will be allowed to be
-	 * in execution by this application. See "service.createJob" for details.
+	 * Gets the number of Kubernetes fibonacci jobs running in the cluster.
+	 * It can be either 0 or 1, since only one job will be allowed to be
+	 * in execution by design of this application.
+	 * See "service.createJob" for more details.
 	 * @return An integer representing the job count.
 	 */
 	@GetMapping("/count")
@@ -34,7 +35,7 @@ public class FibonacciJobController {
 	}
 
 	/**
-	 * Gets the parameters used to execute the fibonacci job.
+	 * Gets the parameters used to execute the Kubernetes fibonacci job.
 	 * @return  A FibonacciJobRequestModel object containing the parameters.
 	 */
 	@GetMapping("/parameters")

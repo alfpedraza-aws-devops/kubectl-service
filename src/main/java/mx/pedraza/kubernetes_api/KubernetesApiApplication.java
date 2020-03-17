@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class KubernetesApiApplication {
 
 	/**
-	 * Initializes the Spring Boot framework and starts the web server app.
+	 * Initializes the Spring Boot framework and starts the web server.
 	 * @param args
 	 */
 	public static void main(String[] args) {

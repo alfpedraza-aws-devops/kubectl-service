@@ -35,7 +35,7 @@ public class JsonHelper {
     /**
      * Gets the number of root level child elements in the JSON string.
      * Since Kubernetes returns an array of objects using a "List" element,
-     * it performs a couple of validations to overcome this feature.
+     * it performs a couple of validations to overtake this feature.
      * @param json The JSON string to inspect.
      * @return An integer specifing the count of root level child elements.
      */
@@ -52,7 +52,7 @@ public class JsonHelper {
         }
     }
 
-    // Inspects the JSONElement to see if it's of kind "List".
+    // Inspects the JSONElement to see if its kind is "List".
     // If that's the case, get its "items" array and return its size.
     private int getElementLength(JsonElement element) {
         JsonObject jsonObject = (JsonObject)element;

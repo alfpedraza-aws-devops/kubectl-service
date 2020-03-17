@@ -3,7 +3,7 @@ package mx.pedraza.kubernetes_api.models;
 import lombok.Data;
 
 /**
- * Contains the parameters used to create a fibonacci job.
+ * Contains the parameters used to create the Kubernetes fibonacci job.
  */
 @Data
 public class FibonacciJobRequestModel {

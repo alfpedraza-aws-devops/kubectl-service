@@ -1,11 +1,13 @@
 # DESCRIPTION:
-# This job starts an Apache Benchmark Tool instance "ab"
+# This Kubernetes job starts an Apache Benchmark Tool instance "ab"
 # (https://httpd.apache.org/docs/2.4/programs/ab.html) to generate multiple
 # concurrent (CONCURRENCY) HTTP requests (REQUESTS) to one specified target Url
 # (JOB_TARGET_URL, i.e. the fibonacci service in this example).
+#
 # The purpose of this job is to put pressure on the CPU of the machine hosting
 # the fibonacci service and make the Kubernetes cluster autoscaler to grow the
 # Kubernetes cluster, appending more node servers to the cluster.
+#
 # The parameters specified in the section "env" below and enclosed with ##
 # are replaced programatically by the java code.
 # This file is only a template for the java code. 

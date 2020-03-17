@@ -13,7 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 /**
- * Performs file read/write manipulations.
+ * Performs read/write file manipulations.
  */
 @Service
 public class FileHelper {
