@@ -35,6 +35,10 @@ curl -vX PUT http://url.of.this.service/api/fibonacci-job -d '{"requests":"5000"
 curl -vX DELETE http://url.of.this.service/api/fibonacci-job
 ```
 
+## Dependencies
+
+This project depends on the Fibonacci micro service as well as many other Kubernetes objects that are deployed to the Kubernetes server. The main dependency is with a Kubernetes Job called Fibonacci and with a Kubernetes Horizontal Pod Autoscaler which tracks metrics of the Fibonacci Deployment object and its ReplicaSet. See the _deployment_ project for more information about these Kubernetes objects.
+
 ## Role
 
 Altough the above operations could be performed by the Kubernetes API server by itself, accessing the API service directly through its REST endpoints requires to get a token and expose the Kubernetes API server to the Internet, which is not desirable.
